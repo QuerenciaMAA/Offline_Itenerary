@@ -3,81 +3,81 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#B84A12">
+<meta name="theme-color" content="#3A2110">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <title>Daily itinerary</title>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icon-192.png">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23B84A12'/%3E%3Cpath d='M17 33l10 10 20-22' fill='none' stroke='white' stroke-width='7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%238A4F0C'/%3E%3Cpath d='M17 33l10 10 20-22' fill='none' stroke='white' stroke-width='7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
 <style>
 *, *::before, *::after { box-sizing: border-box; }
 html, body { margin: 0; -webkit-text-size-adjust: 100%; }
-body { background: #FCEBE3; color: #2B1A17; font-family: 'DM Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
+body { background: #F5E6C8; color: #2D1B0E; font-family: 'DM Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
 button { font: inherit; color: inherit; cursor: pointer; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
-button:focus-visible, input:focus-visible { outline: 2px solid #B84A12; outline-offset: 2px; }
+button:focus-visible, input:focus-visible { outline: 2px solid #8A4F0C; outline-offset: 2px; }
 
-.sky { height: 132px; overflow: hidden; background: linear-gradient(180deg, #7C4046 0%, #C4521A 46%, #F08A4B 72%, #F4A58F 100%); }
+.sky { height: 132px; overflow: hidden; background: #4A2610; box-shadow: inset 0 -40px 50px -30px rgba(45,27,14,.55); }
 .sky svg { display: block; width: 100%; height: 100%; }
 .page { max-width: 1040px; margin: 0 auto; padding: 36px 20px 96px; display: flex; flex-wrap: wrap; gap: 32px 56px; align-items: flex-start; }
 .intro { flex: 1 1 260px; max-width: 320px; display: flex; flex-direction: column; gap: 20px; }
-.eyebrow { margin: 0; font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: #B84A12; }
+.eyebrow { margin: 0; font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: #8A4F0C; }
 h1 { margin: 0; font-family: Georgia, 'Times New Roman', serif; font-weight: 600; font-size: 46px; line-height: 1.05; letter-spacing: -0.01em; }
 .prog { display: flex; flex-direction: column; gap: 8px; }
 .prog-top { display: flex; justify-content: space-between; align-items: baseline; font-size: 15px; }
 .prog-top span:first-child { font-weight: 600; }
-.muted { color: #6B4A44; }
-progress { width: 100%; height: 10px; accent-color: #B84A12; }
-.hint { margin: 0; font-size: 15px; line-height: 1.5; color: #5A3A34; text-wrap: pretty; }
-.small { margin: 0; font-size: 13px; color: #6B4A44; }
+.muted { color: #6A4A2A; }
+progress { width: 100%; height: 10px; accent-color: #8A4F0C; }
+.hint { margin: 0; font-size: 15px; line-height: 1.5; color: #54391F; text-wrap: pretty; }
+.small { margin: 0; font-size: 13px; color: #6A4A2A; }
 .btns { display: flex; flex-wrap: wrap; gap: 8px; }
 
-.ib { width: 44px; height: 44px; flex: none; display: flex; align-items: center; justify-content: center; background: transparent; border: 0; border-radius: 10px; padding: 0; color: #5A3A34; }
-.ib:hover { background: #F6D3C4; }
-.ib.add { border: 1px solid #E2B3A0; background: #FFF8F4; }
-.btn { min-height: 44px; padding: 0 14px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; background: #FFF8F4; border: 1px solid #E2B3A0; border-radius: 10px; font-size: 14px; font-weight: 600; }
-.btn:hover { background: #F6D3C4; }
-.btn:disabled { opacity: .4; cursor: default; background: #FFF8F4; }
-.btn.primary { background: #B84A12; border-color: #B84A12; color: #fff; }
-.btn.primary:hover { background: #9A3D0C; }
+.ib { width: 44px; height: 44px; flex: none; display: flex; align-items: center; justify-content: center; background: transparent; border: 0; border-radius: 10px; padding: 0; color: #54391F; }
+.ib:hover { background: #EAD3A5; }
+.ib.add { border: 1px solid #CDA66A; background: #FBF1DC; }
+.btn { min-height: 44px; padding: 0 14px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; background: #FBF1DC; border: 1px solid #CDA66A; border-radius: 10px; font-size: 14px; font-weight: 600; }
+.btn:hover { background: #EAD3A5; }
+.btn:disabled { opacity: .4; cursor: default; background: #FBF1DC; }
+.btn.primary { background: #8A4F0C; border-color: #8A4F0C; color: #fff; }
+.btn.primary:hover { background: #6F3E08; }
 .btn.danger { color: #9B1C2E; }
 .btn.sq { width: 44px; padding: 0; }
 
-.timeline { flex: 999 1 420px; min-width: 0; border-bottom: 1px solid #EBC7B8; }
-.slot { display: grid; grid-template-columns: 72px minmax(0, 1fr); gap: 12px; padding: 10px 8px; border-top: 1px solid #EBC7B8; transition: background .12s; }
-.slot.drop { background: #F8C9B5; }
+.timeline { flex: 999 1 420px; min-width: 0; border-bottom: 1px solid #D9BE8C; }
+.slot { display: grid; grid-template-columns: 72px minmax(0, 1fr); gap: 12px; padding: 10px 8px; border-top: 1px solid #D9BE8C; transition: background .12s; }
+.slot.drop { background: #E9CE94; }
 .time { padding-top: 14px; font-size: 15px; font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
-.ampm { font-size: 12px; font-weight: 600; color: #6B4A44; }
+.ampm { font-size: 12px; font-weight: 600; color: #6A4A2A; }
 .content { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
 .toprow { display: flex; align-items: flex-start; gap: 8px; }
 .cards { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 8px; }
-.cont, .free { font-size: 14px; color: #6B4A44; padding: 14px 4px 0; }
-.free { color: #7A5750; }
+.cont, .free { font-size: 14px; color: #6A4A2A; padding: 14px 4px 0; }
+.free { color: #7A5A36; }
 
-.card { background: #FFF8F4; border: 1px solid #EBC7B8; border-radius: 12px; display: flex; flex-direction: column; }
-.card.sel { border-color: #B84A12; box-shadow: 0 0 0 1px #B84A12; }
-.card.done { background: #FAD7C8; }
-.card.done .ttl { text-decoration: line-through; color: #6B4A44; }
+.card { background: #FBF1DC; border: 1px solid #D9BE8C; border-radius: 12px; display: flex; flex-direction: column; }
+.card.sel { border-color: #8A4F0C; box-shadow: 0 0 0 1px #8A4F0C; }
+.card.done { background: #EFD3A0; }
+.card.done .ttl { text-decoration: line-through; color: #6A4A2A; }
 .row { display: flex; align-items: center; gap: 2px; padding: 0 4px 0 2px; }
 .tw { flex: 1; min-width: 0; display: flex; flex-direction: column; }
-.ttl { width: 100%; border: 0; background: transparent; font: inherit; font-size: 17px; font-weight: 600; color: #2B1A17; padding: 10px 4px; min-height: 44px; border-radius: 8px; }
-.ttl::placeholder { color: #7A5750; font-weight: 500; }
-.ttl:hover { background: #FCEBE3; }
-.span { font-size: 13px; color: #6B4A44; padding: 0 4px 8px; margin-top: -6px; }
-.box { width: 24px; height: 24px; border-radius: 8px; border: 2px solid #B8795F; background: #FFF8F4; display: flex; align-items: center; justify-content: center; }
+.ttl { width: 100%; border: 0; background: transparent; font: inherit; font-size: 17px; font-weight: 600; color: #2D1B0E; padding: 10px 4px; min-height: 44px; border-radius: 8px; }
+.ttl::placeholder { color: #7A5A36; font-weight: 500; }
+.ttl:hover { background: #F5E6C8; }
+.span { font-size: 13px; color: #6A4A2A; padding: 0 4px 8px; margin-top: -6px; }
+.box { width: 24px; height: 24px; border-radius: 8px; border: 2px solid #A8772F; background: #FBF1DC; display: flex; align-items: center; justify-content: center; }
 .tick { opacity: 0; }
-.card.done .box { background: #B84A12; border-color: #B84A12; }
+.card.done .box { background: #8A4F0C; border-color: #8A4F0C; }
 .card.done .tick { opacity: 1; }
-.grip { width: 28px; height: 44px; flex: none; display: flex; align-items: center; justify-content: center; color: #7A5750; cursor: grab; }
+.grip { width: 28px; height: 44px; flex: none; display: flex; align-items: center; justify-content: center; color: #7A5A36; cursor: grab; }
 .grip:active { cursor: grabbing; }
 
-.ctl { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 20px; padding: 10px 12px 12px; border-top: 1px dashed #EBC7B8; }
+.ctl { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 20px; padding: 10px 12px 12px; border-top: 1px dashed #D9BE8C; }
 .grp { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
 .grp.tight { gap: 4px; }
-.lbl { font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: #6B4A44; }
+.lbl { font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: #6A4A2A; }
 .dur { min-width: 60px; text-align: center; font-size: 14px; font-weight: 600; font-variant-numeric: tabular-nums; }
 .addform { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
-.addin { flex: 1 1 200px; min-width: 0; min-height: 44px; border: 1px solid #B8795F; border-radius: 10px; padding: 0 12px; font: inherit; font-size: 16px; background: #FFF8F4; color: #2B1A17; }
+.addin { flex: 1 1 200px; min-width: 0; min-height: 44px; border: 1px solid #A8772F; border-radius: 10px; padding: 0 12px; font: inherit; font-size: 16px; background: #FBF1DC; color: #2D1B0E; }
 
 @media (max-width: 640px) {
   .sky { height: 100px; }
@@ -99,25 +99,37 @@ progress { width: 100%; height: 10px; accent-color: #B84A12; }
 <header class="sky" aria-hidden="true">
 <svg viewBox="0 0 1200 132" preserveAspectRatio="xMinYMax slice" xmlns="http://www.w3.org/2000/svg" focusable="false">
   <defs>
-    <path id="leaf" d="M0 0 C22 -30 58 -34 86 -4 C58 -20 24 -16 0 0Z"/>
-    <g id="crown">
-      <use href="#leaf" transform="rotate(-8)"/><use href="#leaf" transform="rotate(-36)"/><use href="#leaf" transform="rotate(-66)"/><use href="#leaf" transform="rotate(14)"/>
-      <use href="#leaf" transform="scale(-1 1) rotate(-8)"/><use href="#leaf" transform="scale(-1 1) rotate(-36)"/><use href="#leaf" transform="scale(-1 1) rotate(-66)"/><use href="#leaf" transform="scale(-1 1) rotate(14)"/>
-      <use href="#leaf" transform="rotate(-92) scale(.8)"/>
-    </g>
+    <pattern id="lines" width="12" height="7" patternUnits="userSpaceOnUse"><rect width="12" height="1.3" y="2.5" fill="#5A3A1A" opacity=".6"/></pattern>
+    <radialGradient id="lamp" cx="62%" cy="30%" r="75%"><stop offset="0" stop-color="#F0A93E"/><stop offset=".45" stop-color="#C27220"/><stop offset="1" stop-color="#4A2610"/></radialGradient>
   </defs>
-  <g fill="#2B1A17" stroke="none">
-    <path d="M118 52 C114 80 124 104 120 136 L127 136 C131 104 121 80 125 52Z"/>
-    <use href="#crown" transform="translate(121 52)"/>
-    <path d="M236 74 C233 96 240 116 237 136 L242 136 C245 116 238 96 241 74Z"/>
-    <use href="#crown" transform="translate(239 74) scale(.72)"/>
-    <path d="M1010 60 C1006 86 1016 108 1012 136 L1019 136 C1023 108 1013 86 1017 60Z"/>
-    <use href="#crown" transform="translate(1013 60) scale(.9)"/>
-    <path d="M1118 84 C1116 104 1121 120 1119 136 L1123 136 C1125 120 1120 104 1122 84Z"/>
-    <use href="#crown" transform="translate(1121 84) scale(.55)"/>
-    <ellipse cx="560" cy="140" rx="70" ry="22"/><ellipse cx="640" cy="134" rx="60" ry="26"/><ellipse cx="700" cy="140" rx="50" ry="20"/>
-    <ellipse cx="880" cy="140" rx="64" ry="24"/><ellipse cx="800" cy="144" rx="50" ry="18"/>
+  <rect width="1200" height="132" fill="url(#lamp)"/>
+  <g transform="rotate(-4 160 100)">
+    <path d="M24 64 Q92 46 160 64 L160 150 L24 150Z" fill="#F3E0B2"/>
+    <path d="M160 64 Q228 46 296 64 L296 150 L160 150Z" fill="#EBD39F"/>
+    <path d="M24 64 Q92 46 160 64 L160 150 L24 150Z" fill="url(#lines)"/>
+    <path d="M160 64 Q228 46 296 64 L296 150 L160 150Z" fill="url(#lines)"/>
+    <path d="M160 62 L160 150" stroke="#3A2110" stroke-width="3"/>
+    <path d="M18 66 Q92 44 160 62 Q228 44 302 66" fill="none" stroke="#3A2110" stroke-width="5" stroke-linecap="round"/>
   </g>
+  <g transform="rotate(-9 270 40)">
+    <rect x="200" y="36" width="210" height="7" rx="1.5" fill="#B8791F"/>
+    <rect x="200" y="36" width="210" height="2.4" fill="#E0A54A"/>
+    <path d="M200 36 L176 39.5 L200 43Z" fill="#E9CFA0"/><path d="M182 38.6 L176 39.5 L182 40.4Z" fill="#2D1B0E"/>
+    <rect x="404" y="35" width="10" height="9" rx="2" fill="#7A3A22"/>
+  </g>
+  <g fill="rgba(255,196,110,.16)" stroke="#3A2110" stroke-width="5.5" transform="rotate(-12 420 80)">
+    <circle cx="372" cy="84" r="27"/><circle cx="442" cy="78" r="27"/>
+    <path d="M398 76 Q407 68 416 74" fill="none"/>
+    <path d="M469 74 Q500 64 530 78 L536 98" fill="none" stroke-linecap="round"/>
+    <path d="M345 84 Q336 82 330 90" fill="none" stroke-linecap="round"/>
+  </g>
+  <g>
+    <rect x="900" y="100" width="190" height="34" rx="2" fill="#3A2110"/><rect x="906" y="104" width="178" height="3" fill="#C9A15A" opacity=".6"/>
+    <rect x="920" y="72" width="160" height="30" rx="2" fill="#8A4F0C"/><rect x="926" y="76" width="148" height="3" fill="#E9CE94" opacity=".7"/>
+    <rect x="940" y="46" width="130" height="28" rx="2" fill="#5A2E10"/><rect x="946" y="50" width="118" height="3" fill="#D9B070" opacity=".6"/>
+    <path d="M1100 134 L1100 60 Q1130 50 1160 64 L1160 134Z" fill="#F0DAA8"/><path d="M1100 134 L1100 60 Q1130 50 1160 64 L1160 134Z" fill="url(#lines)"/>
+  </g>
+  <rect width="1200" height="132" fill="none"/>
 </svg>
 </header>
 <main class="page">
