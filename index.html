@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#B84A12">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<title>Daily itinerary</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23B84A12'/%3E%3Cpath d='M17 33l10 10 20-22' fill='none' stroke='white' stroke-width='7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<style>
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; -webkit-text-size-adjust: 100%; }
+body { background: #FCEBE3; color: #2B1A17; font-family: 'DM Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
+button { font: inherit; color: inherit; cursor: pointer; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+button:focus-visible, input:focus-visible { outline: 2px solid #B84A12; outline-offset: 2px; }
+
+.sky { height: 132px; overflow: hidden; background: linear-gradient(180deg, #7C4046 0%, #C4521A 46%, #F08A4B 72%, #F4A58F 100%); }
+.sky svg { display: block; width: 100%; height: 100%; }
+.page { max-width: 1040px; margin: 0 auto; padding: 36px 20px 96px; display: flex; flex-wrap: wrap; gap: 32px 56px; align-items: flex-start; }
+.intro { flex: 1 1 260px; max-width: 320px; display: flex; flex-direction: column; gap: 20px; }
+.eyebrow { margin: 0; font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: #B84A12; }
+h1 { margin: 0; font-family: Georgia, 'Times New Roman', serif; font-weight: 600; font-size: 46px; line-height: 1.05; letter-spacing: -0.01em; }
+.prog { display: flex; flex-direction: column; gap: 8px; }
+.prog-top { display: flex; justify-content: space-between; align-items: baseline; font-size: 15px; }
+.prog-top span:first-child { font-weight: 600; }
+.muted { color: #6B4A44; }
+progress { width: 100%; height: 10px; accent-color: #B84A12; }
+.hint { margin: 0; font-size: 15px; line-height: 1.5; color: #5A3A34; text-wrap: pretty; }
+.small { margin: 0; font-size: 13px; color: #6B4A44; }
+.btns { display: flex; flex-wrap: wrap; gap: 8px; }
+
+.ib { width: 44px; height: 44px; flex: none; display: flex; align-items: center; justify-content: center; background: transparent; border: 0; border-radius: 10px; padding: 0; color: #5A3A34; }
+.ib:hover { background: #F6D3C4; }
+.ib.add { border: 1px solid #E2B3A0; background: #FFF8F4; }
+.btn { min-height: 44px; padding: 0 14px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; background: #FFF8F4; border: 1px solid #E2B3A0; border-radius: 10px; font-size: 14px; font-weight: 600; }
+.btn:hover { background: #F6D3C4; }
+.btn:disabled { opacity: .4; cursor: default; background: #FFF8F4; }
+.btn.primary { background: #B84A12; border-color: #B84A12; color: #fff; }
+.btn.primary:hover { background: #9A3D0C; }
+.btn.danger { color: #9B1C2E; }
+.btn.sq { width: 44px; padding: 0; }
+
+.timeline { flex: 999 1 420px; min-width: 0; border-bottom: 1px solid #EBC7B8; }
+.slot { display: grid; grid-template-columns: 72px minmax(0, 1fr); gap: 12px; padding: 10px 8px; border-top: 1px solid #EBC7B8; transition: background .12s; }
+.slot.drop { background: #F8C9B5; }
+.time { padding-top: 14px; font-size: 15px; font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.ampm { font-size: 12px; font-weight: 600; color: #6B4A44; }
+.content { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.toprow { display: flex; align-items: flex-start; gap: 8px; }
+.cards { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 8px; }
+.cont, .free { font-size: 14px; color: #6B4A44; padding: 14px 4px 0; }
+.free { color: #7A5750; }
+
+.card { background: #FFF8F4; border: 1px solid #EBC7B8; border-radius: 12px; display: flex; flex-direction: column; }
+.card.sel { border-color: #B84A12; box-shadow: 0 0 0 1px #B84A12; }
+.card.done { background: #FAD7C8; }
+.card.done .ttl { text-decoration: line-through; color: #6B4A44; }
+.row { display: flex; align-items: center; gap: 2px; padding: 0 4px 0 2px; }
+.tw { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.ttl { width: 100%; border: 0; background: transparent; font: inherit; font-size: 17px; font-weight: 600; color: #2B1A17; padding: 10px 4px; min-height: 44px; border-radius: 8px; }
+.ttl::placeholder { color: #7A5750; font-weight: 500; }
+.ttl:hover { background: #FCEBE3; }
+.span { font-size: 13px; color: #6B4A44; padding: 0 4px 8px; margin-top: -6px; }
+.box { width: 24px; height: 24px; border-radius: 8px; border: 2px solid #B8795F; background: #FFF8F4; display: flex; align-items: center; justify-content: center; }
+.tick { opacity: 0; }
+.card.done .box { background: #B84A12; border-color: #B84A12; }
+.card.done .tick { opacity: 1; }
+.grip { width: 28px; height: 44px; flex: none; display: flex; align-items: center; justify-content: center; color: #7A5750; cursor: grab; }
+.grip:active { cursor: grabbing; }
+
+.ctl { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 20px; padding: 10px 12px 12px; border-top: 1px dashed #EBC7B8; }
+.grp { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.grp.tight { gap: 4px; }
+.lbl { font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: #6B4A44; }
+.dur { min-width: 60px; text-align: center; font-size: 14px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.addform { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.addin { flex: 1 1 200px; min-width: 0; min-height: 44px; border: 1px solid #B8795F; border-radius: 10px; padding: 0 12px; font: inherit; font-size: 16px; background: #FFF8F4; color: #2B1A17; }
+
+@media (max-width: 640px) {
+  .sky { height: 100px; }
+  .page { padding: 20px 12px calc(72px + env(safe-area-inset-bottom, 0px)); gap: 20px; }
+  .intro { max-width: none; flex-basis: 100%; gap: 14px; }
+  h1 { font-size: 36px; }
+  .slot { grid-template-columns: 52px minmax(0, 1fr); gap: 8px; padding: 8px 0; }
+  .ampm { display: block; margin-top: 2px; }
+  .grip, .desk { display: none; }
+  .ctl { gap: 12px; }
+  .grp .lbl { flex-basis: 100%; }
+  .grp:not(.tight) .btn { flex: 1 1 0; }
+  .ctl .btn.danger { flex: 1 1 100%; }
+}
+@media (pointer: coarse) { .grip, .desk { display: none; } }
+</style>
+</head>
+<body>
+<header class="sky" aria-hidden="true">
+<svg viewBox="0 0 1200 132" preserveAspectRatio="xMinYMax slice" xmlns="http://www.w3.org/2000/svg" focusable="false">
+  <defs>
+    <path id="leaf" d="M0 0 C22 -30 58 -34 86 -4 C58 -20 24 -16 0 0Z"/>
+    <g id="crown">
+      <use href="#leaf" transform="rotate(-8)"/><use href="#leaf" transform="rotate(-36)"/><use href="#leaf" transform="rotate(-66)"/><use href="#leaf" transform="rotate(14)"/>
+      <use href="#leaf" transform="scale(-1 1) rotate(-8)"/><use href="#leaf" transform="scale(-1 1) rotate(-36)"/><use href="#leaf" transform="scale(-1 1) rotate(-66)"/><use href="#leaf" transform="scale(-1 1) rotate(14)"/>
+      <use href="#leaf" transform="rotate(-92) scale(.8)"/>
+    </g>
+  </defs>
+  <g fill="#2B1A17" stroke="none">
+    <path d="M118 52 C114 80 124 104 120 136 L127 136 C131 104 121 80 125 52Z"/>
+    <use href="#crown" transform="translate(121 52)"/>
+    <path d="M236 74 C233 96 240 116 237 136 L242 136 C245 116 238 96 241 74Z"/>
+    <use href="#crown" transform="translate(239 74) scale(.72)"/>
+    <path d="M1010 60 C1006 86 1016 108 1012 136 L1019 136 C1023 108 1013 86 1017 60Z"/>
+    <use href="#crown" transform="translate(1013 60) scale(.9)"/>
+    <path d="M1118 84 C1116 104 1121 120 1119 136 L1123 136 C1125 120 1120 104 1122 84Z"/>
+    <use href="#crown" transform="translate(1121 84) scale(.55)"/>
+    <ellipse cx="560" cy="140" rx="70" ry="22"/><ellipse cx="640" cy="134" rx="60" ry="26"/><ellipse cx="700" cy="140" rx="50" ry="20"/>
+    <ellipse cx="880" cy="140" rx="64" ry="24"/><ellipse cx="800" cy="144" rx="50" ry="18"/>
+  </g>
+</svg>
+</header>
+<main class="page">
+  <section class="intro">
+    <p class="eyebrow">Daily itinerary</p>
+    <h1>Today&#39;s plan</h1>
+    <div class="prog">
+      <div class="prog-top"><span id="count"></span><span class="muted">7:30 AM to 11:30 PM</span></div>
+      <progress id="bar" value="0" max="1" aria-label="Tasks completed"></progress>
+    </div>
+    <p class="hint">Type in a task&#39;s name to rename it. Tap the sliders button on a task to change its time or length, or delete it. <span class="desk">On a computer you can also drag a task by its grip onto another time.</span> The + button adds a task to that hour.</p>
+    <div class="btns">
+      <button class="btn" data-act="uncheck">Uncheck all</button>
+      <button class="btn" data-act="reset" id="resetBtn">Clear all tasks</button>
+    </div>
+    <p class="small">Changes save on this device, in this browser.</p>
+  </section>
+  <section class="timeline" id="timeline" aria-label="Schedule"></section>
+</main>
+
+<script>
+(function () {
+  var N = 17;               // hourly slots, 7:30 AM to 11:30 PM
+  var KEY = 'daily-itinerary-v1';
+  var memory = null;        // fallback if storage is blocked
+
+  function seed() {
+    return [];
+  }
+
+  function load() {
+    try {
+      var raw = localStorage.getItem(KEY);
+      if (!raw) return seed();
+      var d = JSON.parse(raw);
+      if (!d || !Array.isArray(d.tasks)) return seed();
+      return d.tasks.filter(function (t) {
+        return t && typeof t.id === 'string' && typeof t.slot === 'number' && t.slot >= 0 && t.slot < N;
+      }).map(function (t) {
+        return { id: t.id, title: String(t.title || ''), slot: t.slot, dur: Math.max(1, Math.min(N - t.slot, t.dur || 1)), done: !!t.done };
+      });
+    } catch (e) { return memory || seed(); }
+  }
+  function save() {
+    memory = state.tasks;
+    try { localStorage.setItem(KEY, JSON.stringify({ tasks: state.tasks })); } catch (e) {}
+  }
+
+  var state = { tasks: load(), sel: null, adding: null, draft: '', resetArm: false };
+  var dragId = null;
+
+  function fmt(i) {
+    var min = 450 + 60 * i, h = Math.floor(min / 60) % 24, m = min % 60;
+    return { t: (h % 12 || 12) + ':' + (m < 10 ? '0' + m : m), p: h >= 12 ? 'PM' : 'AM' };
+  }
+  function full(i) { var f = fmt(i); return f.t + ' ' + f.p; }
+  function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+  function find(id) { return state.tasks.filter(function (t) { return t.id === id; })[0]; }
+
+  var TICK = '<svg class="tick" aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+  var GRIP = '<svg width="14" height="18" viewBox="0 0 14 18" fill="currentColor" aria-hidden="true"><circle cx="4" cy="3" r="1.6"/><circle cx="10" cy="3" r="1.6"/><circle cx="4" cy="9" r="1.6"/><circle cx="10" cy="9" r="1.6"/><circle cx="4" cy="15" r="1.6"/><circle cx="10" cy="15" r="1.6"/></svg>';
+  var SLIDERS = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></svg>';
+  var PLUS = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>';
+  var MINUS = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14"/></svg>';
+  var UP = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 15l6-6 6 6"/></svg>';
+  var DOWN = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>';
+  var TRASH = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 12h10l1-12M9 7V4h6v3"/></svg>';
+
+  function cardHtml(t) {
+    var sel = state.sel === t.id, name = t.title || 'Untitled task', id = esc(t.id);
+    var h = '<div class="card' + (t.done ? ' done' : '') + (sel ? ' sel' : '') + '">' +
+      '<div class="row">' +
+        '<button class="ib" data-act="toggle" data-id="' + id + '" aria-pressed="' + t.done + '" aria-label="' + esc((t.done ? 'Mark not done: ' : 'Mark done: ') + name) + '"><span class="box">' + TICK + '</span></button>' +
+        '<div class="tw"><input class="ttl" type="text" value="' + esc(t.title) + '" placeholder="Untitled task" aria-label="Task name" data-id="' + id + '">' +
+          (t.dur > 1 ? '<span class="span">' + t.dur + ' hours, until ' + full(t.slot + t.dur) + '</span>' : '') + '</div>' +
+        '<span class="grip" draggable="true" data-id="' + id + '" aria-hidden="true">' + GRIP + '</span>' +
+        '<button class="ib" data-act="sel" data-id="' + id + '" aria-expanded="' + sel + '" aria-label="' + esc('Adjust ' + name) + '">' + SLIDERS + '</button>' +
+      '</div>';
+    if (sel) {
+      h += '<div class="ctl">' +
+        '<div class="grp"><span class="lbl">Time</span>' +
+          '<button class="btn" data-act="earlier" data-id="' + id + '"' + (t.slot <= 0 ? ' disabled' : '') + '>' + UP + ' Earlier</button>' +
+          '<button class="btn" data-act="later" data-id="' + id + '"' + (t.slot >= N - 1 ? ' disabled' : '') + '>' + DOWN + ' Later</button></div>' +
+        '<div class="grp tight"><span class="lbl" style="margin-right:4px">Length</span>' +
+          '<button class="btn sq" data-act="shorter" data-id="' + id + '" aria-label="Shorter by one hour"' + (t.dur <= 1 ? ' disabled' : '') + '>' + MINUS + '</button>' +
+          '<span class="dur">' + t.dur + (t.dur === 1 ? ' hour' : ' hours') + '</span>' +
+          '<button class="btn sq" data-act="longer" data-id="' + id + '" aria-label="Longer by one hour"' + (t.slot + t.dur >= N ? ' disabled' : '') + '>' + PLUS + '</button></div>' +
+        '<button class="btn danger" data-act="remove" data-id="' + id + '">' + TRASH + ' Delete</button>' +
+      '</div>';
+    }
+    return h + '</div>';
+  }
+
+  function render() {
+    var html = '';
+    for (var i = 0; i < N; i++) {
+      var f = fmt(i);
+      var items = state.tasks.filter(function (t) { return t.slot === i; });
+      var conts = state.tasks.filter(function (t) { return t.slot < i && t.slot + t.dur > i; });
+      html += '<div class="slot" data-slot="' + i + '">' +
+        '<div class="time">' + f.t + ' <span class="ampm">' + f.p + '</span></div>' +
+        '<div class="content"><div class="toprow"><div class="cards">' +
+          items.map(cardHtml).join('') +
+          conts.map(function (c) { return '<div class="cont">Continues: ' + esc(c.title || 'Untitled task') + '</div>'; }).join('') +
+          (!items.length && !conts.length ? '<div class="free">Open</div>' : '') +
+        '</div><button class="ib add" data-act="openadd" data-slot="' + i + '" aria-label="Add a task at ' + full(i) + '">' + PLUS + '</button></div>';
+      if (state.adding === i) {
+        html += '<div class="addform"><input class="addin" type="text" placeholder="New task" aria-label="Add a task at ' + full(i) + '" value="' + esc(state.draft) + '" data-slot="' + i + '">' +
+          '<button class="btn primary" data-act="submitadd" data-slot="' + i + '">Add</button>' +
+          '<button class="btn" data-act="canceladd">Cancel</button></div>';
+      }
+      html += '</div></div>';
+    }
+    document.getElementById('timeline').innerHTML = html;
+    var done = state.tasks.filter(function (t) { return t.done; }).length;
+    document.getElementById('count').textContent = state.tasks.length ? done + ' of ' + state.tasks.length + ' done' : 'No tasks yet';
+    var bar = document.getElementById('bar');
+    bar.max = Math.max(1, state.tasks.length);
+    bar.value = done;
+    document.getElementById('resetBtn').textContent = state.resetArm ? 'Click again to clear' : 'Clear all tasks';
+    if (state.adding !== null) {
+      var inp = document.querySelector('.addin');
+      if (inp) { inp.focus(); var v = inp.value; inp.value = ''; inp.value = v; }
+    }
+  }
+
+  function patch(id, change) {
+    state.tasks = state.tasks.map(function (t) {
+      if (t.id !== id) return t;
+      var n = {}; for (var k in t) n[k] = t[k]; for (var c in change) n[c] = change[c];
+      return n;
+    });
+  }
+  function moveTo(id, slot) {
+    var t = find(id); if (!t) return;
+    var s = Math.max(0, Math.min(N - 1, slot));
+    var moved = { id: t.id, title: t.title, done: t.done, slot: s, dur: Math.max(1, Math.min(t.dur, N - s)) };
+    state.tasks = state.tasks.filter(function (x) { return x.id !== id; }).concat([moved]);
+  }
+  function addTask(slot) {
+    var title = (state.draft || '').trim();
+    if (!title) { state.adding = null; state.draft = ''; return; }
+    var id = 't' + Date.now().toString(36) + Math.floor(Math.random() * 1000);
+    state.tasks = state.tasks.concat([{ id: id, title: title, slot: slot, dur: 1, done: false }]);
+    state.adding = null; state.draft = ''; state.sel = id;
+  }
+
+  document.addEventListener('click', function (e) {
+    var el = e.target.closest ? e.target.closest('[data-act]') : null;
+    if (!el) return;
+    var act = el.getAttribute('data-act'), id = el.getAttribute('data-id'), slot = parseInt(el.getAttribute('data-slot'), 10);
+    var t = id ? find(id) : null;
+    if (act !== 'reset') state.resetArm = false;
+    if (act === 'toggle' && t) patch(id, { done: !t.done });
+    else if (act === 'sel' && t) state.sel = state.sel === id ? null : id;
+    else if (act === 'earlier' && t) { moveTo(id, t.slot - 1); }
+    else if (act === 'later' && t) { moveTo(id, t.slot + 1); }
+    else if (act === 'shorter' && t) patch(id, { dur: Math.max(1, t.dur - 1) });
+    else if (act === 'longer' && t) patch(id, { dur: Math.min(N - t.slot, t.dur + 1) });
+    else if (act === 'remove' && t) { state.tasks = state.tasks.filter(function (x) { return x.id !== id; }); state.sel = null; }
+    else if (act === 'openadd') { state.adding = slot; state.draft = ''; state.sel = null; }
+    else if (act === 'submitadd') addTask(slot);
+    else if (act === 'canceladd') { state.adding = null; state.draft = ''; }
+    else if (act === 'uncheck') state.tasks = state.tasks.map(function (x) { return { id: x.id, title: x.title, slot: x.slot, dur: x.dur, done: false }; });
+    else if (act === 'reset') {
+      if (!state.resetArm) { state.resetArm = true; render(); return; }
+      state.tasks = seed(); state.resetArm = false; state.sel = null; state.adding = null; state.draft = '';
+    } else return;
+    save(); render();
+  });
+
+  // Rename: saved when the field loses focus or Enter is pressed (no re-render, so taps on buttons are never lost).
+  document.addEventListener('change', function (e) {
+    var el = e.target;
+    if (el.classList && el.classList.contains('ttl')) {
+      patch(el.getAttribute('data-id'), { title: el.value });
+      save();
+    }
+  });
+  document.addEventListener('input', function (e) {
+    if (e.target.classList && e.target.classList.contains('addin')) state.draft = e.target.value;
+  });
+  document.addEventListener('keydown', function (e) {
+    var el = e.target;
+    if (!el.classList) return;
+    if (el.classList.contains('addin')) {
+      if (e.key === 'Enter') { state.draft = el.value; addTask(parseInt(el.getAttribute('data-slot'), 10)); save(); render(); }
+      else if (e.key === 'Escape') { state.adding = null; state.draft = ''; render(); }
+    } else if (el.classList.contains('ttl') && e.key === 'Enter') {
+      el.blur();
+    }
+  });
+
+  // Drag and drop (mouse): drag a task's grip onto another hour.
+  document.addEventListener('dragstart', function (e) {
+    var g = e.target.closest ? e.target.closest('.grip') : null;
+    if (!g) return;
+    dragId = g.getAttribute('data-id');
+    try { e.dataTransfer.effectAllowed = 'move'; e.dataTransfer.setData('text/plain', dragId); } catch (err) {}
+  });
+  document.addEventListener('dragover', function (e) {
+    if (!dragId) return;
+    var s = e.target.closest ? e.target.closest('.slot') : null;
+    if (!s) return;
+    e.preventDefault();
+    var cur = document.querySelector('.slot.drop');
+    if (cur !== s) { if (cur) cur.classList.remove('drop'); s.classList.add('drop'); }
+  });
+  document.addEventListener('drop', function (e) {
+    var s = e.target.closest ? e.target.closest('.slot') : null;
+    if (!dragId || !s) return;
+    e.preventDefault();
+    var id = dragId; dragId = null;
+    moveTo(id, parseInt(s.getAttribute('data-slot'), 10));
+    save(); render();
+  });
+  document.addEventListener('dragend', function () {
+    dragId = null;
+    var cur = document.querySelector('.slot.drop'); if (cur) cur.classList.remove('drop');
+  });
+
+  render();
+
+  if ("serviceWorker" in navigator && /^https?:$/.test(location.protocol)) {
+    window.addEventListener("load", function () { navigator.serviceWorker.register("sw.js").catch(function () {}); });
+  }
+})();
+</script>
+</body>
+</html>
